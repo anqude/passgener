@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 import os
 
 window = Tk()
+window.resizable(width=False, height=False)
 window.title("qr view")  
 
 scriptdir=os.path.abspath(__file__)

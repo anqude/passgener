@@ -7,6 +7,7 @@ os.chdir(scriptdir.removesuffix('/front.py'))
 
 window = Tk()  
 window.geometry("350x280")
+window.resizable(width=False, height=False)
 window.configure(background="#ccc")
 ttk.Style().configure("TCheckbutton", padding=6, relief="flat",
    background="#ccc")
