@@ -19,7 +19,7 @@ sudo dnf install python3-tkinter python3-pillow-tk
 ```
 
 <img src="https://i.imgur.com/KUsAunA.png" alt="img" align="right" width="150px">
-<img src="https://i.imgur.com/LQg6okt.png alt="img" align="right" width="200px">
+<img src="https://i.imgur.com/7akq4wS.png" alt="img" align="right" width="200px">
 
 
 ### Features
