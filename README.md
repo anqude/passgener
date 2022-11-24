@@ -5,7 +5,7 @@
 ### Dependencies
 **Python**
 ```sh
-pip install tk pyperclip qrcode
+pip install tk pyperclip qrcode customtkinter
 ```
 
 **On debian**
@@ -18,13 +18,13 @@ sudo apt install python3-tk python3-pil.imagetk
 sudo dnf install python3-tkinter python3-pillow-tk 
 ```
 
-<img src="https://i.imgur.com/KUsAunA.png" alt="img" align="right" width="150px">
-<img src="https://i.imgur.com/IYXMmxQ.png" alt="img" align="right" width="200px">
-
+<img src="https://i.imgur.com/f1cBAgi.png" alt="img" align="right" width="200px">
+<img src="https://i.imgur.com/asgXlG3.png" alt="img" align="right" width="200px">
+<img src="https://i.imgur.com/FvNREK4.png" alt="img" align="right" width="150px">
 
 ### Features
 
 - using cusom passassword
 - copy passwoed to clipboard
 - share password via QR code
-
+- support dark and light system theme 
