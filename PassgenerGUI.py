@@ -103,7 +103,7 @@ def genadiy():
   window.update_idletasks()
   width=window.winfo_width()
   height=window.winfo_height()
-  img = ImageTk.PhotoImage(Image.open("qr.png").resize((width,height),Image.Resampling.HAMMING),master = window)
+  img = ImageTk.PhotoImage(Image.open("qr.png").resize((width,height)),master = window)
   qr=CTkButton(window,text="",image=img,border=0,fg_color=None,hover_color=None)
   qr.pack()
 genqr = CTkButton(text="Generate QR!",command=genadiy,width = 39)
