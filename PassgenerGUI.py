@@ -96,6 +96,7 @@ def genadiy():
   generate_qr(entry.get())
   from PIL import ImageTk,Image
   window = CTkToplevel()
+  window.configure(background="black")
   window.title("QR")  
   window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='qr.png'))
   window.geometry("150x150")
@@ -104,7 +105,7 @@ def genadiy():
   width=window.winfo_width()
   height=window.winfo_height()
   img = ImageTk.PhotoImage(Image.open("qr.png").resize((width,height)),master = window)
-  qr=CTkButton(window,text="",image=img,border=0,fg_color=None,hover_color=None)
+  qr=CTkButton(window,text="",image=img,border=0,fg_color=None,hover_color=None,bg_color=None)
   qr.pack()
 genqr = CTkButton(text="Generate QR!",command=genadiy,width = 39)
 genqr.place(x=175, y=140)
