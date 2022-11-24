@@ -2,6 +2,16 @@
 
 ## Feature rich generator
 
+**Install pip on Debian**
+```sh
+sudo apt install pip
+```
+
+**Install pip on Fedora**
+```sh
+sudo dnf install pip
+```
+
 ### Dependencies
 **Python**
 ```sh
