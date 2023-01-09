@@ -10,7 +10,7 @@ pip install tk pyperclip qrcode customtkinter qrcode password-strength
 
 **On debian**
 ```sh
-sudo apt install python3-tk python3-pil.imagetk pytho3-pip python3
+sudo apt install python3-tk python3-pil.imagetk python3-pip python3
 ```
 
 **On fedora**

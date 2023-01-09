@@ -1,4 +1,4 @@
-from customtkinter import CTk,CTkLabel,CTkButton,CTkEntry,CTkCheckBox,CTkToplevel,CTkImage
+from customtkinter import CTk,CTkLabel,CTkButton,CTkEntry,CTkCheckBox
 from PassgenCLI import *
 from tkinter import IntVar,END,PhotoImage
 from qr import generate_qr
@@ -102,15 +102,23 @@ def genadiy():
   window.title("QR")  
   window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='qr.png'))
   bg = ImageTk.PhotoImage(file="qr.png")
-  canvas = Canvas(window)
+  canvas = Canvas(window,)
+  canvas.configure(bg="black")
   canvas.pack(fill="both", expand=True)
   canvas.create_image(0,0,image=bg, anchor='nw')
 
   def resize_image(win):
     global image, resized, image2
     image = Image.open("qr.png")
-    resized = image.resize((win.width, win.height), Image.Resampling.LANCZOS)
+    wide=win.width
+    high=win.height
+    if high < wide:
+      wide=high
+    else:
+      high=wide
+    resized = image.resize((wide, high))
     image2 = ImageTk.PhotoImage(resized)
+    canvas.delete("all")
     canvas.create_image(0, 0, image=image2, anchor='nw')
 
   window.bind("<Configure>", resize_image)
