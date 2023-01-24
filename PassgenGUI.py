@@ -16,7 +16,7 @@ window.geometry("350x180")
 window.title("Passgen by anqude") 
 
 scriptdir=os.path.abspath(__file__)
-os.chdir(scriptdir.removesuffix('/PassgenerGUI.py'))
+os.chdir(scriptdir.removesuffix('/PassgenGUI.py'))
 window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='./ui/icon.png'))
 
 
