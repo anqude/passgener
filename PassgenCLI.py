@@ -1,6 +1,7 @@
 from secrets import choice # Для безопасной генерации пароля
 from pyperclip import copy# Для копирования в буфер обмена
-
+from logics.entropy import get_entopy
+from logics.qr import generate_qr_text
 numbers=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 lettersB=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ]
 lettersS=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r","s", "t", "u", "v", "w", "x", "y", "z"]
@@ -25,9 +26,8 @@ def pass_generate(password_lst,lineal):
     password=''.join(password)
     return password
 
-def pass_copy(copys,password):
-    if copys==True:
-        copy(password)
+def pass_copy(password):
+    copy(password)
 
 if __name__ == "__main__":
     soglasie=["yes","y","д","да"]
@@ -47,8 +47,15 @@ if __name__ == "__main__":
     password_lst=alph_generate(number,letterB,letterS,spec)
     password=pass_generate(password_lst,lineal)
     print(password)
+    entropy,state=get_entopy(password)
+    entropy_data=str(entropy)+" bits, "+state
+    print(entropy_data)
     if(input("Скопировать в буфер обмена? [Д/н] ").lower() in soglasie) :
-        copys=True
+        pass_copy(password)
     else:
-       copys=False 
-    pass_copy(copys,password)
+       pass
+    if(input("Создать QR код? [Д/н] ").lower() in soglasie) :
+        generate_qr_text(password)
+    else:
+       pass
+    
