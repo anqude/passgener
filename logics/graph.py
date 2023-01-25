@@ -72,4 +72,3 @@ def anonim(n,xn,yn,a,resx,resy):
 		Ynull_coordinates.append(Ynull_coordinate)
 
 	return(Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)
-print(len(ggraph(4, 4, 3)))

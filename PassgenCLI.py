@@ -1,61 +1,35 @@
-from secrets import choice # Для безопасной генерации пароля
 from pyperclip import copy# Для копирования в буфер обмена
 from logics.entropy import get_entopy
 from logics.qr import generate_qr_text
-numbers=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-lettersB=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ]
-lettersS=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r","s", "t", "u", "v", "w", "x", "y", "z"]
-special=[ "!", "@", "№", "#", "$", "%", "^", "|", "&", "*", "_", "-", "=", "+", "-", "/", "(", ")", "?", "{", "}", "[", "]", "~", ">", "<", "." ]
+from logics.generate import alph_generate,pass_generate
 
-def alph_generate(number,letterB,letterS,spec):
-    password_lst=[] # Создаём алфавит пароля
-    if number==True:
-        password_lst+=numbers
-    if letterB==True:
-        password_lst+=lettersB
-    if letterS==True:
-        password_lst+=lettersS
-    if spec==True:
-        password_lst+=special
-    return password_lst   
-              
-def pass_generate(password_lst,lineal):
-    password=[] # Создаём непосредственно пароль
-    for i in range(lineal):
-        password.append(choice(password_lst))
-    password=''.join(password)
-    return password
+soglasie=["yes","y","д","да"]
+nigative=["no","n","н","нет"]
+lineal=int(input("Длина пароля: "))
+number=input("Использовать числа? [Д/н] ")
+letterB=input("Использовать большие буквы? [Д/н] ")
+letterS=input("Использовать маленькие буквы? [Д/н] ")  
+spec=input("Использовать спец символы? [Д/н] ")
+variables=[number.lower(),letterB.lower(),letterS.lower(),spec.lower()]
 
-def pass_copy(password):
-    copy(password)
-
-if __name__ == "__main__":
-    soglasie=["yes","y","д","да"]
-    nigative=["no","n","н","нет"]
-    lineal=int(input("Длина пароля: "))
-    number=input("Использовать числа? [Д/н] ")
-    letterB=input("Использовать большие буквы? [Д/н] ")
-    letterS=input("Использовать маленькие буквы? [Д/н] ")  
-    spec=input("Использовать спец символы? [Д/н] ")
-    variables=[number.lower(),letterB.lower(),letterS.lower(),spec.lower()]
-    for i in range(len(variables)):
-        if variables[i] in soglasie:
-            variables[i]=True  
+for i in range(len(variables)):
+    if variables[i] in soglasie:
+        variables[i]=True  
         if variables[i] in nigative:  
             variables[i]=False 
-    number,letterB,letterS,spec=variables[0],variables[1],variables[2],variables[3]  
-    password_lst=alph_generate(number,letterB,letterS,spec)
-    password=pass_generate(password_lst,lineal)
-    print(password)
-    entropy,state=get_entopy(password)
-    entropy_data=str(entropy)+" bits, "+state
-    print(entropy_data)
-    if(input("Скопировать в буфер обмена? [Д/н] ").lower() in soglasie) :
-        pass_copy(password)
-    else:
-       pass
-    if(input("Создать QR код? [Д/н] ").lower() in soglasie) :
-        generate_qr_text(password)
-    else:
-       pass
+number,letterB,letterS,spec=variables[0],variables[1],variables[2],variables[3]  
+password_lst=alph_generate(number,letterB,letterS,spec)
+password=pass_generate(password_lst,lineal)
+print(password)
+entropy,state=get_entopy(password)
+entropy_data=str(entropy)+" bits, "+state
+print(entropy_data)
+if(input("Скопировать в буфер обмена? [Д/н] ").lower() in soglasie) :
+        copy(password)
+else:
+   pass
+if(input("Создать QR код? [Д/н] ").lower() in soglasie) :
+    generate_qr_text(password)
+else:
+   pass
     
