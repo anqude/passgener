@@ -1,5 +1,4 @@
 import random
-import numpy
 def graph(x,y): #Создаём двумерный массив, заполненный гулями
     a = []
     for i in range(y):
