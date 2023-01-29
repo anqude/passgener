@@ -1,10 +1,21 @@
-from customtkinter import CTk,CTkLabel,CTkButton,CTkEntry,CTkCheckBox,CTkTabview
+from customtkinter import CTk,CTkLabel,CTkButton,CTkEntry,CTkCheckBox,CTkTabview,get_appearance_mode
 from logics.generate import alph_generate,pass_generate
 from tkinter import IntVar,END,PhotoImage
 from logics.qr import generate_qr
 import os
+
 window=CTk()
-window.title("Passgen by anqude") 
+window.title("Passgen by anqude")
+window.geometry("350x220")
+window.resizable(width=False, height=False) 
+theme=get_appearance_mode()
+if theme=="Dark":
+	bg_color="#242424"
+	fg_color="#dbdbdb"
+else:
+	fg_color="#242424"
+	bg_color="#dbdbdb"
+
 scriptdir=os.path.abspath(__file__)
 os.chdir(scriptdir.removesuffix('/PassgenGUI.py'))
 window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='./ui/icon.png'))
@@ -12,8 +23,6 @@ window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='./ui/icon.png'))
 tabview = CTkTabview(window)
 tabview.pack(fill="both", expand=True,anchor='center')
 
-window.geometry("350x220")
-window.resizable(width=False, height=False)
 tabview.add("Line") # add tab at the end
 tabview.add("Graph")  # add tab at the end
 tabview.set("Line")  # set currently visible tab
@@ -23,8 +32,8 @@ tabview.set("Line")  # set currently visible tab
 counter=8
 
 def Checkvariables():    
-    password_lst=alph_generate(Chnumber.get(),ChletterB.get(),ChletterS.get(),Chspec.get())
-    return password_lst
+		password_lst=alph_generate(Chnumber.get(),ChletterB.get(),ChletterS.get(),Chspec.get())
+		return password_lst
 
 
 
@@ -54,77 +63,72 @@ CheckNumber.select()
 CheckNumber.place(x=254, y=60)
 
 def minus_click():
-    counter=int(label2.get())
-    if counter==1:
-      pass
-    else:
-      counter-=1 
-    label2.delete(0, END)
-    label2.insert(0, counter)
+		counter=int(counter_entry.get())
+		if counter==1:
+			pass
+		else:
+			counter-=1 
+		counter_entry.delete(0, END)
+		counter_entry.insert(0, counter)
+
 minus = CTkButton(tabview.tab("Line"),text="-",command=minus_click,width = 27)
 minus.place(x=12, y=100)
 
 
-label2=CTkEntry(tabview.tab("Line"),width = 40)
-label2.insert(0, counter)
-label2.place(x=47, y=100)
+counter_entry=CTkEntry(tabview.tab("Line"),width = 40)
+counter_entry.insert(0, counter)
+counter_entry.place(x=47, y=100)
 
 
 def plus_click():
-    counter=int(label2.get())
-    counter+=1
-    label2.delete(0, END)
-    label2.insert(0, counter)
+		counter=int(counter_entry.get())
+		counter+=1
+		counter_entry.delete(0, END)
+		counter_entry.insert(0, counter)
 plus = CTkButton(tabview.tab("Line"),text="+",command=plus_click,width = 27)
 plus.place(x=95, y=100)
 
 
-def handle_click():
-    entry.delete(0, END)
-    try:
-      password=pass_generate(Checkvariables(),int(label2.get()))
-      entry.insert(0, password)
-    except:
-       entry.insert(0, "") 
-button=CTkButton(tabview.tab("Line"),text="Generate pass!", command=handle_click,width = 39)
+def generate_line():
+		entry.delete(0, END)
+		try:
+			password=pass_generate(Checkvariables(),int(counter_entry.get()))
+			entry.insert(0, password)
+		except:
+			 entry.insert(0, "") 
+button=CTkButton(tabview.tab("Line"),text="Generate pass!", command=generate_line,width = 39)
 button.place(x=12, y=140)
 
 
 def copy_click():
-  from pyperclip import copy
-  copy(entry.get())
+	from pyperclip import copy
+	copy(entry.get())
 Copy = CTkButton(tabview.tab("Line"),text="Copy!",command=copy_click, width = 39)
 Copy.place(x=122, y=140)
 
-
 def genadiy():
-  generate_qr(entry.get())
-  from tkinter import Toplevel,Label
-  from PIL import ImageTk, Image
-  window = Toplevel()
-  window.geometry("200x200")
-  window.configure(bg="#242424")
-  window.title("QR")  
-  window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='qr.png'))
-  bg = ImageTk.PhotoImage(file="qr.png")
-  label = Label(window,background="#242424",highlightbackground="#242424")
-  label.pack(fill="both", expand=True,anchor='center')
+	generate_qr(entry.get(),fg_color,bg_color)
+	from tkinter import Toplevel,Label
+	from PIL import ImageTk, Image
+	window = Toplevel()
+	window.geometry("200x200")
+	window.configure(bg=bg_color)
+	window.title("QR")  
+	window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='qr.png'))
+	bg = ImageTk.PhotoImage(file="qr.png")
+	label = Label(window,background=bg_color,highlightbackground=bg_color)
+	label.pack(fill="both", expand=True,anchor='center')
+	
+	def resize_image(win):
+		image = Image.open("qr.png")
+		size=min(win.width,win.height)
+		resized = image.resize((size, size))
+		image2 = ImageTk.PhotoImage(resized)
+		window.image2=image2
+		label.configure(image=image2)
 
-  def resize_image(win):
-    image = Image.open("qr.png")
-    wide=win.width
-    high=win.height
-    if high < wide:
-      wide=high
-    else:
-      high=wide
-    resized = image.resize((wide, high))
-    image2 = ImageTk.PhotoImage(resized)
-    window.image2=image2
-    label.configure(image=image2)
-
-  window.bind("<Configure>", resize_image)
-  window.mainloop()
+	window.bind("<Configure>", resize_image)
+	window.mainloop()
 
 genqr = CTkButton(tabview.tab("Line"),text="Generate QR!",command=genadiy,width = 39)
 genqr.place(x=175, y=140)
@@ -155,38 +159,38 @@ y_entry.insert(0,3)
 len_entry.insert(0,4)
 
 def gena():
-    n=int(len_entry.get())
-    yn=int(y_entry.get())
-    xn=int(x_entry.get())
-    from tkinter import Canvas, Toplevel
-    root = Toplevel()
-    root.configure(background="#242424")
-    root.title("Graph")
-    root.geometry("400x400")
-    resx,resy=400,400
-    canvas = Canvas(root,background="#242424",highlightbackground="#242424")
-    canvas.pack(fill="both", expand=True)
-    a=ggraph(n, xn, yn)
-    Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
-    def draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates):
-        for i in range (xn): #кол-во линий
-            for j in range(yn): #кол-во строк
-                canvas.create_oval(Xnull_coordinates[i]-3,Ynull_coordinates[j]-3,Xnull_coordinates[i]+3,Ynull_coordinates[j]+3,width=7,fill="white",outline="#565b5e")
-            
-        for i in range (n-1): #Кол-во точек -1 тк это линии лол
-            canvas.create_line(Xcoordinates[i], Ycoordinates[i], Xcoordinates[i+1], Ycoordinates[i+1],width=7,arrow="last",fill="white")
-    draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)     
-    def sizable(event):
-        resx,resy = event.width, event.height
-        canvas.delete("all")
-        Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
-        draw(n, xn, yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)
-        
-    canvas.bind('<Configure>', sizable)
-    root.mainloop()
+		n=int(len_entry.get())
+		yn=int(y_entry.get())
+		xn=int(x_entry.get())
+		from tkinter import Canvas, Toplevel
+		root = Toplevel()
+		root.configure(background="#242424")
+		root.title("Graph")
+		root.geometry("200x200")
+		resx,resy=400,400
+		canvas = Canvas(root,background=bg_color,highlightbackground=bg_color)
+		canvas.pack(fill="both", expand=True)
+		a=ggraph(n, xn, yn)
+		Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
+		def draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates):
+				for i in range (xn): #кол-во линий
+						for j in range(yn): #кол-во строк
+								canvas.create_oval(Xnull_coordinates[i]-3,Ynull_coordinates[j]-3,Xnull_coordinates[i]+3,Ynull_coordinates[j]+3,width=7,fill=fg_color,outline="#565b5e")
+						
+				for i in range (n-1): #Кол-во точек -1 тк это линии лол
+						canvas.create_line(Xcoordinates[i], Ycoordinates[i], Xcoordinates[i+1], Ycoordinates[i+1],width=7,arrow="last",fill=fg_color)
+		draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)     
+		def sizable(event):
+				resx,resy = event.width, event.height
+				canvas.delete("all")
+				Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
+				draw(n, xn, yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)
+				
+		canvas.bind('<Configure>', sizable)
+		root.mainloop()
 
 
-generate_button=CTkButton(tabview.tab("Graph"),command=gena, text="Generate!",width=320)
-generate_button.place(x=15, y=95)
+generate_graph=CTkButton(tabview.tab("Graph"),command=gena, text="Generate!",width=320)
+generate_graph.place(x=15, y=95)
 
 window.mainloop()
