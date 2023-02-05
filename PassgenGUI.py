@@ -42,7 +42,7 @@ def Checkvariables():
 
 
 entry=CTkEntry(tabview.tab("Line"),width = 320)
-entry.place(x=14, y=15)
+entry.pack(padx=14, pady=15, fill="x")
 
 
 Chspec = IntVar()
@@ -118,15 +118,16 @@ def genadiy():
 	bg = ImageTk.PhotoImage(file="qr.png")
 	label = Label(window,background=bg_color,highlightbackground=bg_color)
 	label.pack(fill="both", expand=True,anchor='center')
-	
+	counter_loop=[0]
 	def resize_image(win):
-		image = Image.open("qr.png")
-		size=min(win.width,win.height)
-		resized = image.resize((size, size))
-		image2 = ImageTk.PhotoImage(resized)
-		window.image2=image2
-		label.configure(image=image2)
-
+		if counter_loop[0]%3==0:
+			image = Image.open("qr.png")
+			size=min(win.width,win.height)
+			resized = image.resize((size, size))
+			image2 = ImageTk.PhotoImage(resized)
+			window.image2=image2
+			label.configure(image=image2)
+		counter_loop.insert(0,counter_loop[0]+1)
 	window.bind("<Configure>", resize_image)
 	window.mainloop()
 
@@ -167,6 +168,7 @@ def gena():
 		root.configure(background="#242424")
 		root.title("Graph")
 		root.geometry("200x200")
+		root.tk.call('wm', 'iconphoto', root._w, PhotoImage(file='./ui/graph.png'))
 		resx,resy=400,400
 		canvas = Canvas(root,background=bg_color,highlightbackground=bg_color)
 		canvas.pack(fill="both", expand=True)
