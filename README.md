@@ -18,11 +18,10 @@ sudo apt install python3-tk python3-pil.imagetk xclip
 sudo dnf install python3-tkinter python3-pillow-tk xclip
 ```
 ### Screenshots
-<img src="https://i.imgur.com/f1cBAgi.png" alt="img" align="left" width="200px">
-<img src="https://i.imgur.com/asgXlG3.png" alt="img"  width="200px">
-<img src="https://imgur.com/ShSOwa7.png" alt="img" align="left"  width="150px">
-<img src="https://imgur.com/2arxxyI.png" alt="img"  width="150px">
-<img src="https://imgur.com/A4xYFsJ.png" alt="img"  width="150px">
+<img src="https://imgur.com/QmPctSn.png" alt="img" align="left" width="200px">
+<img src="https://imgur.com/K1Zg6bv.png" alt="img"  width="200px">
+<img src="https://imgur.com/CGmd5cZ.png" alt="img" align="left"  width="150px">
+<img src="https://imgur.com/Plrrmzy.png" alt="img"  width="150px">
 
 ### Features
 - using cusom passassword
