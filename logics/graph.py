@@ -8,7 +8,7 @@ def graph(x,y): #Создаём двумерный массив, заполне�
     return a
 
 def ggraph(n,xn,yn):
-	m = 1
+	m = 0
 	xym = [xn,yn]
 	b = graph(xn, yn)
 	av = [[-1,-1]]

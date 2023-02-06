@@ -107,29 +107,40 @@ Copy = CTkButton(tabview.tab("Line"),text="Copy!",command=copy_click, width = 39
 Copy.place(x=122, y=140)
 
 def genadiy():
-	generate_qr(entry.get(),fg_color,bg_color)
+	state=generate_qr(entry.get(),fg_color,bg_color)
 	from tkinter import Toplevel,Label
 	from PIL import ImageTk, Image
-	window = Toplevel()
-	window.geometry("200x200")
-	window.configure(bg=bg_color)
-	window.title("QR")  
-	window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='qr.png'))
-	bg = ImageTk.PhotoImage(file="qr.png")
-	label = Label(window,background=bg_color,highlightbackground=bg_color)
-	label.pack(fill="both", expand=True,anchor='center')
-	counter_loop=[0]
-	def resize_image(win):
-		if counter_loop[0]%3==0:
-			image = Image.open("qr.png")
-			size=min(win.width,win.height)
-			resized = image.resize((size, size))
-			image2 = ImageTk.PhotoImage(resized)
-			window.image2=image2
-			label.configure(image=image2)
-		counter_loop.insert(0,counter_loop[0]+1)
-	window.bind("<Configure>", resize_image)
-	window.mainloop()
+	if state==True:
+		window = Toplevel()
+		window.geometry("200x200")
+		window.configure(bg=bg_color)
+		window.title("QR")  
+		window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='qr.png'))
+		bg = ImageTk.PhotoImage(file="qr.png")
+		label = Label(window,background=bg_color,highlightbackground=bg_color)
+		label.pack(fill="both", expand=True,anchor='center')
+		counter_loop=[0]
+		def resize_image(win):
+			if counter_loop[0]%3==0:
+				image = Image.open("qr.png")
+				size=min(win.width,win.height)
+				resized = image.resize((size, size))
+				image2 = ImageTk.PhotoImage(resized)
+				window.image2=image2
+				label.configure(image=image2)
+			counter_loop.insert(0,counter_loop[0]+1)
+		window.bind("<Configure>", resize_image)
+		window.mainloop()
+	else:
+		window = Toplevel()
+		window.configure(bg=bg_color)
+		window.title("Warning!")
+		window.tk.call('wm', 'iconphoto', window._w, PhotoImage(file='./ui/warn.png'))
+		label = Label(window,background=bg_color,highlightbackground=bg_color,text="Too much data to make QR!",foreground=fg_color,font=("Monospace",16))
+		label.pack(fill="both", expand=True,anchor='center')
+		window.attributes('-topmost', True)
+		window.update()
+		window.mainloop()
 
 genqr = CTkButton(tabview.tab("Line"),text="Generate QR!",command=genadiy,width = 39)
 genqr.place(x=175, y=140)
@@ -163,33 +174,44 @@ def gena():
 		n=int(len_entry.get())
 		yn=int(y_entry.get())
 		xn=int(x_entry.get())
-		from tkinter import Canvas, Toplevel
-		root = Toplevel()
-		root.configure(background="#242424")
-		root.title("Graph")
-		root.geometry("200x200")
-		root.tk.call('wm', 'iconphoto', root._w, PhotoImage(file='./ui/graph.png'))
-		resx,resy=400,400
-		canvas = Canvas(root,background=bg_color,highlightbackground=bg_color)
-		canvas.pack(fill="both", expand=True)
-		a=ggraph(n, xn, yn)
-		Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
-		def draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates):
-				for i in range (xn): #кол-во линий
-						for j in range(yn): #кол-во строк
-								canvas.create_oval(Xnull_coordinates[i]-3,Ynull_coordinates[j]-3,Xnull_coordinates[i]+3,Ynull_coordinates[j]+3,width=7,fill=fg_color,outline="#565b5e")
-						
-				for i in range (n-1): #Кол-во точек -1 тк это линии лол
-						canvas.create_line(Xcoordinates[i], Ycoordinates[i], Xcoordinates[i+1], Ycoordinates[i+1],width=7,arrow="last",fill=fg_color)
-		draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)     
-		def sizable(event):
-				resx,resy = event.width, event.height
-				canvas.delete("all")
-				Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
-				draw(n, xn, yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)
-				
-		canvas.bind('<Configure>', sizable)
-		root.mainloop()
+		from tkinter import Canvas, Toplevel, Label
+		if not ( n<=1 or n>xn*yn):
+			root = Toplevel()
+			root.configure(background="#242424")
+			root.title("Graph")
+			root.geometry("200x200")
+			root.tk.call('wm', 'iconphoto', root._w, PhotoImage(file='./ui/graph.png'))
+			resx,resy=400,400
+			canvas = Canvas(root,background=bg_color,highlightbackground=bg_color)
+			canvas.pack(fill="both", expand=True)
+			a=ggraph(n, xn, yn)
+			Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
+			def draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates):
+					for i in range (xn): #кол-во линий
+							for j in range(yn): #кол-во строк
+									canvas.create_oval(Xnull_coordinates[i]-3,Ynull_coordinates[j]-3,Xnull_coordinates[i]+3,Ynull_coordinates[j]+3,width=7,fill=fg_color,outline="#565b5e")
+							
+					for i in range (n-1): #Кол-во точек -1 тк это линии лол
+							canvas.create_line(Xcoordinates[i], Ycoordinates[i], Xcoordinates[i+1], Ycoordinates[i+1],width=7,arrow="last",fill=fg_color)
+			draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)     
+			def sizable(event):
+					resx,resy = event.width, event.height
+					canvas.delete("all")
+					Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
+					draw(n, xn, yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates)
+					
+			canvas.bind('<Configure>', sizable)
+			root.mainloop()
+		else:
+			root = Toplevel()
+			root.configure(bg=bg_color)
+			root.title("Warning!")
+			root.tk.call('wm', 'iconphoto', root._w, PhotoImage(file='./ui/warn.png'))
+			label = Label(root,background=bg_color,highlightbackground=bg_color,text="Incorrect length!",foreground=fg_color,font=("Monospace",16))
+			label.pack(fill="both", expand=True,anchor='center')
+			root.attributes('-topmost', True)
+			root.update()
+			root.mainloop()
 
 
 generate_graph=CTkButton(tabview.tab("Graph"),command=gena, text="Generate!",width=320)
