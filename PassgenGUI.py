@@ -3,6 +3,7 @@ from logics.generate import alph_generate,pass_generate
 from tkinter import IntVar,END,PhotoImage
 from logics.qr import generate_qr
 import os
+from logics.entropy import get_entopy
 
 window=CTk()
 window.title("Passgen by anqude")
@@ -36,14 +37,22 @@ def Checkvariables():
 		return password_lst
 
 
+def testVal(inStr):
+    if inStr!="":
+        strong=get_entopy(inStr)
+        Entropy.configure(text=" Strength: "+str(strong[0])+" bits, "+strong[1])
+        return True
+    else:
+        Entropy.configure(text=" Strength:",width = 180)
+        return True
 
 
-
-
-
-entry=CTkEntry(tabview.tab("Line"),width = 320)
+entry=CTkEntry(tabview.tab("Line"),width = 320,validate="key")
+entry.configure(validatecommand = (entry.register(testVal),'%P'))
 entry.pack(padx=14, pady=15, fill="x")
 
+Entropy =CTkLabel(tabview.tab("Line"),text=" Strength: ",width = 180,anchor="w")
+Entropy.place(x=135, y=100)
 
 Chspec = IntVar()
 CheckCpec = CTkCheckBox(tabview.tab("Line"),text='@~#',variable=Chspec, onvalue=True, offvalue=False)
