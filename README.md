@@ -5,7 +5,7 @@
 ### Dependencies
 **Python**
 ```sh
-pip install tk pyperclip qrcode customtkinter password password-strength
+pip install tk pyperclip qrcode customtkinter password-strength
 ```
 
 **On debian**
