@@ -24,8 +24,8 @@ sudo dnf install python3-tkinter python3-pillow-tk xclip
 <img src="https://imgur.com/Plrrmzy.png" alt="img"  width="150px">
 
 ### Features
-- using cusom passassword
-- copy passwoed to clipboard
+- using custom password
+- copy password to clipboard
 - share password via QR code
-- support dark and light system theme 
+- support dark and light system themes 
 - generate graphic key
