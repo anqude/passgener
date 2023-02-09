@@ -1,4 +1,4 @@
-import random
+import random,time
 def graph(x,y): #Создаём двумерный массив, заполненный гулями
     a = []
     for i in range(y):
@@ -9,30 +9,28 @@ def graph(x,y): #Создаём двумерный массив, заполне�
 
 def ggraph(n,xn,yn):
 	m = 0
-	xym = [xn,yn]
 	b = graph(xn, yn)
 	av = [[-1,-1]]
-	try:
-		masx = [i for i in range(2,xn)]
-		masy = [i for i in range(2,yn)]
-	except:
-		masx = [1]
-		masy = [1]
+	masx = [i for i in range(0,xn)]
+	masy = [i for i in range(0,yn)]
+	timing = time.time()
 	while m < n+1:
 		x = random.randint(0, xn-1)
 		y = random.randint(0, yn-1)
 		x0 = av[len(av)-1][0]
 		y0 = av[len(av)-1][1]
 		a = [x0,y0,x,y]
-		if (b[y][x] == 0) and (((abs(a[0]-a[2])==1 and (abs(a[1]-a[3]) in masy) ) or (abs(a[1]-a[3])==1 and abs(a[0]-a[2]) in masx)) or ((a[0] == a[2] or a[0]+1 == a[2] or a[0]-1 == a[2]) and (a[1] == a[3] or a[1]+1 == a[3] or a[1]-1 == a[3])) )or (x0==-1 and y0==-1):
+		if not((abs(x-x0)==abs(y-y0) and abs(y-y0)!=1)or (y==y0 and abs(x-x0)!=1) or (x==x0 and abs(y-y0)!=1)) and x0 in masx and y0 in masy and x in masx and y in masy and (b[y][x] == 0) or (x0==-1 and y0==-1):
 			b[y][x] = m
 			av.append([x,y])
 			m += 1
-			
-		else:
+	
+		if time.time() - timing > 0.06:
+			b = None
+			break
+		else:	
 			continue
 			
-	
 	return b
 
 
