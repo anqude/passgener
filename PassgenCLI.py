@@ -4,20 +4,29 @@ from logics.qr import generate_qr_text
 from logics.generate import alph_generate,pass_generate
 
 soglasie=["yes","y","д","да"]
-nigative=["no","n","н","нет"]
-lineal=int(input("Длина пароля: "))
-number=input("Использовать числа? [Д/н] ")
-letterB=input("Использовать большие буквы? [Д/н] ")
-letterS=input("Использовать маленькие буквы? [Д/н] ")  
-spec=input("Использовать спец символы? [Д/н] ")
-variables=[number.lower(),letterB.lower(),letterS.lower(),spec.lower()]
+while True:
+    try:
+        lineal=int(input("Длина пароля: "))
+        break
+    except ValueError:
+        print("Это должно быть число!")
+while True:
+    number=input("Использовать числа? [Д/н] ")
+    letterB=input("Использовать большие буквы? [Д/н] ")
+    letterS=input("Использовать маленькие буквы? [Д/н] ")  
+    spec=input("Использовать спец символы? [Д/н] ")
+    variables=[number.lower(),letterB.lower(),letterS.lower(),spec.lower()]
 
-for i in range(len(variables)):
-    if variables[i] in soglasie:
-        variables[i]=True  
-        if variables[i] in nigative:  
+    for i in range(len(variables)):
+        if variables[i] in soglasie:
+            variables[i]=True
+        else:  
             variables[i]=False 
-number,letterB,letterS,spec=variables[0],variables[1],variables[2],variables[3]  
+    number,letterB,letterS,spec=variables[0],variables[1],variables[2],variables[3]
+    if True in variables:
+        break
+    else:
+        print("Пустой пароль!")  
 password_lst=alph_generate(number,letterB,letterS,spec)
 password=pass_generate(password_lst,lineal)
 print(password)

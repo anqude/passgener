@@ -8,30 +8,29 @@ def graph(x,y): #Создаём двумерный массив, заполне�
     return a
 
 def ggraph(n,xn,yn):
-	m = 0
+	m = 1
 	b = graph(xn, yn)
-	av = [[-1,-1]]
-	masx = [i for i in range(0,xn)]
-	masy = [i for i in range(0,yn)]
-	timing = time.time()
+	x0 = 0
+	y0 = 0
+	from time import time
+	timing = time()
 	while m < n+1:
 		x = random.randint(0, xn-1)
 		y = random.randint(0, yn-1)
-		x0 = av[len(av)-1][0]
-		y0 = av[len(av)-1][1]
-		a = [x0,y0,x,y]
-		if not((abs(x-x0)==abs(y-y0) and abs(y-y0)!=1)or (y==y0 and abs(x-x0)!=1) or (x==x0 and abs(y-y0)!=1)) and x0 in masx and y0 in masy and x in masx and y in masy and (b[y][x] == 0) or (x0==-1 and y0==-1):
+		if not((abs(x-x0) == abs(y-y0) and abs(y-y0) != 1)or (y == y0 and abs(x-x0) != 1) or (x == x0 and abs(y-y0) != 1)) and (b[y][x] == 0) or (m == 1):
 			b[y][x] = m
-			av.append([x,y])
+			x0 = x
+			y0 = y
 			m += 1
-	
-		if time.time() - timing > 0.06:
+
+		if time() - timing > 0.06:
 			b = None
 			break
 		else:	
 			continue
 			
 	return b
+
 
 
 def find(matrix, value):
