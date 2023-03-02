@@ -1,10 +1,6 @@
-import random,time
+import random
 def graph(x,y): #Создаём двумерный массив, заполненный гулями
-    a = []
-    for i in range(y):
-        a.append([])
-        for j in range(x):
-            a[i].append(0)
+    a = [[0] * x for _ in range(y)]
     return a
 
 def ggraph(n,xn,yn):
@@ -12,8 +8,7 @@ def ggraph(n,xn,yn):
 	b = graph(xn, yn)
 	x0 = 0
 	y0 = 0
-	from time import time
-	timing = time()
+	iteration=0
 	while m < n+1:
 		x = random.randint(0, xn-1)
 		y = random.randint(0, yn-1)
@@ -23,14 +18,13 @@ def ggraph(n,xn,yn):
 			y0 = y
 			m += 1
 
-		if time() - timing > 0.06:
-			b = None
-			break
-		else:	
+		else:
+			iteration+=1	
+			if iteration>xn*yn*n:
+				h=ggraph(n,xn,yn)
+				return h
 			continue
-			
 	return b
-
 
 
 def find(matrix, value):

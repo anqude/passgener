@@ -193,10 +193,7 @@ def gena():
 			resx,resy=400,400
 			canvas = Canvas(root,background=bg_color,highlightbackground=bg_color)
 			canvas.pack(fill="both", expand=True)
-			while True:
-				a=ggraph(n, xn, yn)
-				if a!=None:
-					break
+			a=ggraph(n, xn, yn)
 			Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates=anonim(n,xn,yn,a,resx,resy)
 			def draw(n,xn,yn,Xcoordinates,Ycoordinates,Xnull_coordinates,Ynull_coordinates):
 					for i in range (xn): #кол-во линий
